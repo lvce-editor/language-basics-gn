@@ -1,0 +1,12 @@
+{
+  "id": "builtin.language-basics-gn",
+  "name": "Language Basics GN",
+  "description": "Provides syntax highlighting and bracket matching in gn files.",
+  "languages": [
+    {
+      "id": "gn",
+      "extensions": [".gn", ".gni"],
+      "tokenize": "src/tokenizeGn.js"
+    }
+  ]
+}
