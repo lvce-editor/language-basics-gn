@@ -54,7 +54,7 @@ const RE_STRING_DOUBLE_QUOTE_CONTENT = /^[^"]+/
 const RE_KEYWORD =
   /^(?:if|else|true|false|assert|config|declare_args|defined|exec_script|foreach|get_label_info|get_path_info|get_target_outputs|getenv|import|print|process_file_template|propagates_configs|read_file|rebase_path|set_default_toolchain|set_defaults|set_sources_assignment_filter|template|tool|toolchain_args|toolchain|write_file)\b/
 const RE_VARIABLE_NAME = /^[a-zA-Z\_\/\-]+/
-const RE_PUNCTUATION = /^[:,;\{\}\[\]\.=\(\)<>\+]/
+const RE_PUNCTUATION = /^[:,;\{\}\[\]\.=\(\)<>\+\|\!\&]/
 const RE_NUMERIC = /^\d+/
 
 export const initialLineState = {
