@@ -27,6 +27,7 @@ export const TokenType = {
   Text: 9,
   Function: 10,
   LanguageConstant: 11,
+  KeywordImport: 12,
 }
 
 export const TokenMap = {
@@ -42,6 +43,7 @@ export const TokenMap = {
   [TokenType.Text]: 'Text',
   [TokenType.Function]: 'Function',
   [TokenType.LanguageConstant]: 'LanguageConstant',
+  [TokenType.KeywordImport]: 'KeywordImport',
 }
 
 const RE_LINE_COMMENT = /^#.*/s
@@ -49,9 +51,8 @@ const RE_WHITESPACE = /^ +/
 const RE_ANYTHING = /^.+/s
 const RE_QUOTE_DOUBLE = /^"/
 const RE_STRING_DOUBLE_QUOTE_CONTENT = /^[^"]+/
-const RE_KEYWORD = /^(?:if|else|true|false)\b/
-const RE_FUNCTION =
-  /^(?:assert|config|declare_args|defined|exec_script|foreach|get_label_info|get_path_info|get_target_outputs|getenv|import|print|process_file_template|propagates_configs|read_file|rebase_path|set_default_toolchain|set_defaults|set_sources_assignment_filter|template|tool|toolchain_args|toolchain|write_file)\b/
+const RE_KEYWORD =
+  /^(?:if|else|true|false|assert|config|declare_args|defined|exec_script|foreach|get_label_info|get_path_info|get_target_outputs|getenv|import|print|process_file_template|propagates_configs|read_file|rebase_path|set_default_toolchain|set_defaults|set_sources_assignment_filter|template|tool|toolchain_args|toolchain|write_file)\b/
 const RE_VARIABLE_NAME = /^[a-zA-Z\_\/\-]+/
 const RE_PUNCTUATION = /^[:,;\{\}\[\]\.=\(\)<>]/
 const RE_NUMERIC = /^\d+/
@@ -96,6 +97,34 @@ export const tokenizeLine = (line, lineState) => {
             case 'false':
               token = TokenType.LanguageConstant
               break
+            case 'assert':
+            case 'config':
+            case 'declare_args':
+            case 'defined':
+            case 'exec_script':
+            case 'foreach':
+            case 'get_label_info':
+            case 'get_path_info':
+            case 'get_target_outputs':
+            case 'getenv':
+            case 'print':
+            case 'process_file_template':
+            case 'propagates_configs':
+            case 'read_file':
+            case 'rebase_path':
+            case 'set_default_toolchain':
+            case 'set_defaults':
+            case 'set_sources_assignment_filter':
+            case 'template':
+            case 'tool':
+            case 'toolchain_args':
+            case 'toolchain':
+            case 'write_file':
+              token = TokenType.Function
+              break
+            case 'import':
+              token = TokenType.KeywordImport
+              break
             default:
               token = TokenType.Keyword
               break
@@ -103,9 +132,6 @@ export const tokenizeLine = (line, lineState) => {
           state = State.TopLevelContent
         } else if ((next = part.match(RE_PUNCTUATION))) {
           token = TokenType.Punctuation
-          state = State.TopLevelContent
-        } else if ((next = part.match(RE_FUNCTION))) {
-          token = TokenType.Function
           state = State.TopLevelContent
         } else if ((next = part.match(RE_VARIABLE_NAME))) {
           token = TokenType.VariableName
