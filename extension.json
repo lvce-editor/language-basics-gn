@@ -8,5 +8,6 @@
       "extensions": [".gn", ".gni"],
       "tokenize": "src/tokenizeGn.js"
     }
-  ]
+  ],
+  "repository": "https://github.com/lvce-editor/language-basics-gn"
 }
